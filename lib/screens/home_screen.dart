@@ -1,3 +1,4 @@
+import 'package:latihan_responsi/screens/list_screen.dart';
 import 'package:latihan_responsi/screens/login_screen.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -114,6 +115,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Get an overview of the latest SpaceFlight news, from various sources! Easily link your users to the right websites.',
                 ),
                 onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const ListScreen(title: 'News', endpoint: 'articles'),
+                    ),
+                  );
                   // nanti navigasi ke list news
                 },
               ),
@@ -132,6 +140,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Blogs often provide a more detailed overview of launches and missions. A must-have for the serious spaceflight enthusiast.',
                 ),
                 onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const ListScreen(title: 'Blogs', endpoint: 'blogs'),
+                    ),
+                  );
                   // nanti navigasi ke list blog
                 },
               ),
@@ -150,6 +165,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Space stations and other missions often publish their data. With SNAPI, you can include it in your app.',
                 ),
                 onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ListScreen(
+                        title: 'Reports',
+                        endpoint: 'reports',
+                      ),
+                    ),
+                  );
                   // nanti navigasi ke list report
                 },
               ),

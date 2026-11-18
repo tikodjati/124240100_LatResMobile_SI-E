@@ -1,3 +1,4 @@
+import 'package:latihan_responsi/screens/register_screen.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,9 +43,19 @@ class _LoginScreenState extends State<LoginScreen> {
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
-    if (username == 'tiko' && password == 'tiko') {
-      final loginData = await SharedPreferences.getInstance();
-      await loginData.setBool('loginData', true);
+    final prefs = await SharedPreferences.getInstance();
+    final savedUsername = prefs.getString('registered_username');
+    final savedPassword = prefs.getString('registered_password');
+
+    if (username.isNotEmpty &&
+        password.isNotEmpty &&
+        username == savedUsername &&
+        password == savedPassword) {
+      // final loginData = await SharedPreferences.getInstance();
+      // await loginData.setBool('loginData', true);
+
+      await prefs.setBool('loginData', true);
+      await prefs.setString('username', username);
       if (mounted) {
         Navigator.pushReplacement(
           context,
@@ -54,7 +65,10 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Username atau password salah!')),
+          const SnackBar(
+            content: Text('Username atau password salah!'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -76,6 +90,10 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  const Text(
+                    'Silahkan Login',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                   TextField(
                     controller: _usernameController,
                     decoration: const InputDecoration(
@@ -112,6 +130,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(fontSize: 16),
                       ),
                     ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text('Belum punya akun? Daftar di sini'),
                   ),
                 ],
               ),
