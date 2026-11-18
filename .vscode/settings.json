@@ -1,9 +1,14 @@
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "Dart-Code.dart-code",
+  "editor.acceptSuggestionOnEnter": "off",
+  "editor.inlineSuggest.enabled": false,
   "[dart]": {
     "editor.formatOnSave": true,
-    "editor.formatOnType": true,
-    "editor.defaultFormatter": "Dart-Code.dart-code"
+    "editor.formatOnType": false,
+    "editor.defaultFormatter": "Dart-Code.dart-code",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
+    }
   }
 }
