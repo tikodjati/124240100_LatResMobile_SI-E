@@ -1,9 +1,6 @@
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:latihan_responsi/screens/login_screen.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../models/todo.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,6 +10,68 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // ini ga kepake jirrr
+  // List<dynamic> articles = [];
+  // List<dynamic> blogs = [];
+  // List<dynamic> reports = [];
+
+  // bool isLoadingArticles = true;
+  // bool isLoadingBlogs = true;
+  // bool isLoadingReports = true;
+
+  // Future<void> fetchArticles() async {
+  //   try {
+  //     final articleData = await getArticles();
+  //     setState(() {
+  //       articles = articleData;
+  //       isLoadingArticles = false;
+  //     });
+  //   } catch (e) {
+  //     setState(() {
+  //       isLoadingArticles = false;
+  //     });
+  //     print('Error: $e');
+  //   }
+  // }
+
+  // Future<void> fetchBlogs() async {
+  //   try {
+  //     final blogData = await getArticles();
+  //     setState(() {
+  //       blogs = blogData;
+  //       isLoadingBlogs = false;
+  //     });
+  //   } catch (e) {
+  //     setState(() {
+  //       isLoadingBlogs = false;
+  //     });
+  //     print('Error: $e');
+  //   }
+  // }
+
+  // Future<void> fetchReports() async {
+  //   try {
+  //     final reportData = await getArticles();
+  //     setState(() {
+  //       articles = reportData;
+  //       isLoadingReports = false;
+  //     });
+  //   } catch (e) {
+  //     setState(() {
+  //       isLoadingReports = false;
+  //     });
+  //     print('Error: $e');
+  //   }
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getArticles();
+  //   getBlogs();
+  //   getReports();
+  // }
+
   void _logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('loginData', false);
@@ -34,97 +93,88 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Halo Tiko', // ini nanti bisa diganti
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: const Text('Hai, Tiko!'),
         centerTitle: true,
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
-        // actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.logout))],
       ),
-      body: Container(
+      body: Padding(
         padding: const EdgeInsets.all(16),
-        child: ValueListenableBuilder(
-          valueListenable: Hive.box<Todo>('todos').listenable(),
-          builder: (context, Box<Todo> box, child) {
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: box.length,
-                    itemBuilder: (context, index) {
-                      final todo = box.getAt(index);
-                      if (todo == null) return const SizedBox.shrink();
-                      return Card(
-                        color: Colors.white,
-                        shadowColor: Colors.black,
-                        elevation: 4,
-                        child: Container(
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    todo.title,
-                                    style: TextStyle(color: Colors.grey[600]),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  IconButton(
-                                    icon: Icon(Icons.edit, color: Colors.blue),
-                                    onPressed: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => AddTodoScreen(
-                                      //       index: index,
-                                      //       todo: todo,
-                                      //     ),
-                                      //   ),
-                                      // );
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.delete, color: Colors.red),
-                                    onPressed: () {
-                                      box.deleteAt(index);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+        child: Column(
+          children: [
+            // 1. Card News
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.newspaper, color: Colors.deepPurple),
+                title: const Text(
+                  'News',
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
+                subtitle: const Text(
+                  'Get an overview of the latest SpaceFlight news, from various sources! Easily link your users to the right websites.',
+                ),
+                onTap: () {
+                  // nanti navigasi ke list news
+                },
+              ),
+            ),
+            const SizedBox(height: 12),
 
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    onPressed: _logout,
-                    child: const Text('Logout', style: TextStyle(fontSize: 16)),
+            // 2. Card Blog
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.article, color: Colors.deepPurple),
+                title: const Text(
+                  'Blog',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: const Text(
+                  'Blogs often provide a more detailed overview of launches and missions. A must-have for the serious spaceflight enthusiast.',
+                ),
+                onTap: () {
+                  // nanti navigasi ke list blog
+                },
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // 3. Card Reports
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.analytics, color: Colors.deepPurple),
+                title: const Text(
+                  'Reports',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: const Text(
+                  'Space stations and other missions often publish their data. With SNAPI, you can include it in your app.',
+                ),
+                onTap: () {
+                  // nanti navigasi ke list report
+                },
+              ),
+            ),
+
+            // Spacer() ini otomatis mendorong tombol logout ke bagian paling bawah layar!
+            const Spacer(),
+
+            // 4. Tombol Logout merah yang sudah kamu buat
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-              ],
-            );
-          },
+                onPressed: _logout,
+                child: const Text('Logout', style: TextStyle(fontSize: 16)),
+              ),
+            ),
+          ],
         ),
       ),
     );
