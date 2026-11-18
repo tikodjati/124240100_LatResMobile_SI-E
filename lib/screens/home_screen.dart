@@ -11,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String _username = '';
   // ini ga kepake jirrr
   // List<dynamic> articles = [];
   // List<dynamic> blogs = [];
@@ -85,16 +86,30 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // Mengambil string dengan key 'username'
+      _username = prefs.getString('username') ?? 'User';
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadUsername(); // 👈 3. Panggil di sini
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hai, Tiko!'),
+        title: Text('Hai, $_username'),
         centerTitle: true,
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,

@@ -30,11 +30,11 @@ Future<List<dynamic>> getBlogs() async {
   }
 }
 
-Future<List<dynamic>> getProducts() async {
-  final response = await http.get(Uri.parse(apiUrl));
+Future<List<dynamic>> getReports() async {
+  final response = await http.get(Uri.parse(reportApiUrl));
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
-    return data['products'];
+    return data['reports'];
   } else {
     throw Exception('Failed to load products');
   }
