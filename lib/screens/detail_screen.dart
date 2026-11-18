@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../services/favorite_service.dart';
 
 class DetailScreen extends StatefulWidget {
   // Menerima map data artikel dari list_screen (Modul 4 - Passing Data)
@@ -13,6 +14,21 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   bool isFavorite = false; // Status apakah sedang difavoritkan
+
+  @override
+  void initState() {
+    super.initState();
+    _checkFavoriteStatus();
+  }
+
+  void _checkFavoriteStatus() async {
+    final fav = await FavoriteService.isFavorite(widget.item['id']);
+    if (mounted) {
+      setState(() {
+        isFavorite = fav;
+      });
+    }
+  }
 
   // Fungsi untuk membuka link web luar (url_launcher)
   Future<void> _launchURL(String urlString) async {
@@ -44,16 +60,21 @@ class _DetailScreenState extends State<DetailScreen> {
               isFavorite ? Icons.favorite : Icons.favorite_border,
               color: isFavorite ? Colors.red : Colors.white,
             ),
-            onPressed: () {
+            onPressed: () async {
+              // Simpan / hapus dari storage lokal
+              final bool nowFav =
+                  await FavoriteService.toggleFavorite(widget.item);
+
+              if (!mounted) return;
               setState(() {
-                isFavorite = !isFavorite;
+                isFavorite = nowFav;
               });
 
               // Munculkan snackbar sesuai gambar di soal
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    isFavorite
+                    nowFav
                         ? 'Ditambahkan ke favorite'
                         : 'Dihapus dari favorite',
                   ),

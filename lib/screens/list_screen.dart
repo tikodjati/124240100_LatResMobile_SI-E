@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:material_ui/material_ui.dart';
 import 'package:http/http.dart' as http;
 import 'detail_screen.dart';
+import 'favorite_screen.dart';
 
 class ListScreen extends StatefulWidget {
   final String title;
@@ -67,6 +68,20 @@ class _ListScreenState extends State<ListScreen> {
         title: Text(widget.title),
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite, color: Colors.white),
+            tooltip: 'Halaman Favorite',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FavoriteScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
